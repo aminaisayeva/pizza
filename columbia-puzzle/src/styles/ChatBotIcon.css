@@ -1,0 +1,13 @@
+.chatbot-icon {
+    width: 40px;  /* Ensure the size matches the inventory slots */
+    height: 40px;
+    background-color: #007BFF; /* Use a distinctive color */
+    border-radius: 50%;  /* Makes the div a circle */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer; /* Indicates the icon is clickable */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.15); /* Optional: adds some depth */
+    border: 2px solid white; /* Helps the icon stand out */
+  }
+  

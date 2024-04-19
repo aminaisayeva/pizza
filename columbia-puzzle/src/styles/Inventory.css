@@ -1,0 +1,21 @@
+.inventory {
+    display: flex;
+    justify-content: center;
+    position: fixed; /* Make inventory stay at the bottom */
+    bottom: 0;
+    width: 100%;
+  }
+  
+  .inventory-slot, .chatbot-icon {
+    width: 40px; /* Size of each slot */
+    height: 40px;
+    margin: 10px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc; /* Light grey border for each slot */
+  }
+  
+  .chatbot-icon {
+    background-color: blue; /* Color to distinguish the chatbot icon */
+    border-radius: 50%; /* Circle shape */
+  }
+  
