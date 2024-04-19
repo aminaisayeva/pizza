@@ -1,0 +1,30 @@
+.mainScreen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    height: 100vh; /* Use 100% of the viewport height */
+  }
+  
+  .mainScreen__whiteboard {
+    width: 80%;
+    border: 2px solid #ccc;
+    margin: 20px;
+    /* Add other styles as needed */
+  }
+  
+  .mainScreen__inventory {
+    width: 80%;
+    border: 2px solid #ccc;
+    margin: 20px;
+    /* Add other styles as needed */
+  }
+  
+  .mainScreen__chatBot {
+    width: 80%;
+    height: 200px; /* Adjust based on your design */
+    border: 2px solid #ccc;
+    margin: 20px;
+    /* Add other styles as needed */
+  }
+  
