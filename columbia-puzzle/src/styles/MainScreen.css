@@ -40,18 +40,31 @@
     cursor: pointer; /* Cursor changes to pointer on hover */
   }
 
-  /* MainScreen.css */
+  .clickable-area {
+    position: absolute;
+    top: 42%;  /* adjust as necessary */
+    left: 51%; /* adjust as necessary */
+    transform: translate(-50%, -50%);
+    width: 520px;  /* size of the clickable area */
+    height: 350px; /* size of the clickable area */
+    
+    cursor: pointer;
+    z-index: 2; /* ensure it's above the base elements */
+  }
+  
   .slide-panel {
-    position: fixed; /* or 'absolute' if the parent is positioned */
-    bottom: -100%; /* Start off-screen */
+    position: fixed;
     left: 0;
     right: 0;
-    background-color: #fff; /* or any color you want */
-    height: 100%; /* or the height you need */
-    z-index: 10; /* above other content */
-    transition: bottom 0.5s; /* Smooth transition for the slide effect */
+    bottom: -100%; /* Start off-screen */
+    height: 100vh; /* Height to cover the whole screen */
+    background-image: url('/Users/aminaisayeva/Desktop/pizza/columbia-puzzle/src/assets/slide_board.png'); /* Add your image here */
+    background-size: cover;
+    background-position: center;
+    transition: bottom 0.5s; /* Smooth slide transition */
+    z-index: 1; /* Ensure it slides under clickable areas */
   }
-
+  
   .slide-panel.visible {
     bottom: 0; /* Slide to cover the screen */
   }

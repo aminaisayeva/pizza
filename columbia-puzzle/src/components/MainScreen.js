@@ -5,6 +5,7 @@ import Inventory from './Inventory';
 import '../styles/MainScreen.css'; // Assuming you have specific styles for the MainScreen
 import LogoutButton from './LogoutButton'; 
 import backgroundImage from '../assets/background.png'; // Ensure the path is correct
+import slideBoardImage from '../assets/slide_board.png';
 
 const MainScreen = () => {
   const mainScreenStyle = {
@@ -26,19 +27,22 @@ const MainScreen = () => {
       <div className="mainScreen__header">
         <LogoutButton /> {/* Place the LogoutButton in the header */}
       </div>
-      <div className="mainScreen__whiteboard">
-        <Whiteboard />
-      </div>
       <div className="mainScreen__inventory">
         <Inventory />
       </div>
-      <div className="clickable-area" onClick={togglePanel}>
-        {/* Render content or just the clickable area */}
+      {/*
+      <div className="mainScreen__whiteboard">
+        <Whiteboard />
       </div>
+      
+      */
+      }
+      <div className="clickable-area" onClick={togglePanel} />
+      <div className={`slide-panel ${isPanelVisible ? 'visible' : ''}`} />
 
       {/* Panel that slides up */}
-      <div className={`slide-panel ${isPanelVisible ? 'visible' : ''}`}>
-        {/* Content of the panel */}
+      <div className={`slide-panel ${isPanelVisible ? 'visible' : ''}`} style={{ backgroundImage: `url(${slideBoardImage})` }}>
+        {/* If you have any other content for this panel, place it here */}
       </div>
     </div>
   );
