@@ -27,4 +27,33 @@
     margin: 20px;
     /* Add other styles as needed */
   }
-  
+
+  /* Add to MainScreen.css or wherever your global styles are defined */
+  .logout-button {
+    position: fixed; /* Fixed or absolute depending on your layout */
+    top: 10px; /* Adjust as needed */
+    right: 10px; /* Adjust as needed */
+    width: 100px; /* Match the size of your image */
+    height: 100px; /* Match the size of your image */
+    background-color: transparent; /* No background color */
+    border: none; /* No border */
+    cursor: pointer; /* Cursor changes to pointer on hover */
+  }
+
+  /* MainScreen.css */
+  .slide-panel {
+    position: fixed; /* or 'absolute' if the parent is positioned */
+    bottom: -100%; /* Start off-screen */
+    left: 0;
+    right: 0;
+    background-color: #fff; /* or any color you want */
+    height: 100%; /* or the height you need */
+    z-index: 10; /* above other content */
+    transition: bottom 0.5s; /* Smooth transition for the slide effect */
+  }
+
+  .slide-panel.visible {
+    bottom: 0; /* Slide to cover the screen */
+  }
+
+
