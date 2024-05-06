@@ -22,18 +22,24 @@ const Inventory = () => {
     loadInventoryItems();
   }, [user]);
 
+  const toggleChatVisibility = () => {
+    setShowChatBot((prev) => !prev);
+  };
+
   return (
     <div className="inventory">
       {/* Display inventory items here */}
-      {inventoryItems.map(item => (
-        <div key={item.id} className="inventory-item">{item.name /* or some identifier */}</div>
+      {inventoryItems.map((item) => (
+        <div key={item.id} className="inventory-item">
+          {item.name /* or some identifier */}
+        </div>
       ))}
 
       {/* Show the chatbot icon */}
-      <ChatBotIcon onClick={() => setShowChatBot(!showChatBot)} />
+      <ChatBotIcon onClick={toggleChatVisibility} />
 
-      {/* Render the ChatBot if showChatBot is true */}
-      {showChatBot && <ChatBot />}
+      {/* Pass the visibility state and toggle function to ChatBot */}
+      <ChatBot visible={showChatBot} toggleVisibility={toggleChatVisibility} />
     </div>
   );
 };

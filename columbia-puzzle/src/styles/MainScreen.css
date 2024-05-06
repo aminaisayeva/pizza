@@ -58,7 +58,7 @@
     right: 0;
     bottom: -100%; /* Start off-screen */
     height: 100vh; /* Height to cover the whole screen */
-    background-image: url('/Users/aminaisayeva/Desktop/pizza/columbia-puzzle/src/assets/slide_board.png'); /* Add your image here */
+    background-image: url('../assets/slide_board.png'); /* Add your image here */
     background-size: cover;
     background-position: center;
     transition: bottom 0.5s; /* Smooth slide transition */
