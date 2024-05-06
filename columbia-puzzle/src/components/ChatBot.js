@@ -1,8 +1,9 @@
+// src/components/ChatBot.js
 import React, { useState, useEffect } from 'react';
+import { collection, query, orderBy, onSnapshot } from 'firebase/firestore';
+import { useUser } from '../context/UserContext';
 import { db } from '../services/firebaseConfig';
-import { collection, addDoc, query, orderBy, onSnapshot } from 'firebase/firestore';
 import '../styles/ChatBot.css';
-import { useUser } from '../context/UserContext'; // Import useUser hook
 
 const ChatBot = () => {
   const [messages, setMessages] = useState([]);
@@ -14,25 +15,37 @@ const ChatBot = () => {
     // Query the current user's chatbot conversations
     const q = query(collection(db, `Users/${user.uid}/ChatBotConversations`), orderBy("timestamp", "asc"));
     const unsubscribe = onSnapshot(q, (snapshot) => {
-      setMessages(snapshot.docs.map(doc => ({ id: doc.id, data: doc.data() })));
+      setMessages(snapshot.docs.map((doc) => ({ id: doc.id, data: doc.data() })));
     });
     return unsubscribe; // Detach listener on unmount
-  }, [user]); // Depend on user
+  }, [user]);
 
   const sendMessage = async (event) => {
     event.preventDefault();
     if (!input.trim()) return; // Don't send empty messages
     if (!user) {
-      alert("You must be logged in to send messages.");
+      alert('You must be logged in to send messages.');
       return;
     }
-    // Add a new message to the current user's ChatBotConversations subcollection
-    await addDoc(collection(db, `Users/${user.uid}/ChatBotConversations`), {
-      text: input,
-      timestamp: new Date(),
-      messageType: 'sent', // You can specify if this is a 'sent' or 'received' message
-    });
-    setInput(''); // Clear the input after sending
+
+    try {
+      // Send message via the backend API
+      const response = await fetch('http://localhost:5001/api/chat/message', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId: user.uid, text: input }),
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        setInput(''); // Clear input after sending
+      } else {
+        alert(data.error || 'Failed to send message');
+      }
+    } catch (error) {
+      console.error('Error sending message:', error);
+      alert('An error occurred while sending the message.');
+    }
   };
 
   return (

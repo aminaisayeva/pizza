@@ -14,7 +14,7 @@ const LogoutButton = () => {
 
   return (
     <button onClick={handleLogout} style={{ background: `url(${logoutButtonImage}) no-repeat center/cover`, border: 'none', width: '150px', height: '150px', cursor: 'pointer' }} className="logout-button">
-      Log Out
+      
     </button>
   );
 };
