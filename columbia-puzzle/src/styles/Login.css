@@ -29,12 +29,12 @@
   font-size: 1rem;
   background-color: #000000; /* Terminal-like black background */
   color: #00ff00; /* Terminal-like green text */
-  border: 1px solid #00ff00; /* Green border */
+  /*border: 1px solid #00ff00; /* Green border */
   outline: none;
   font-family: 'Courier New', Courier, monospace;
 }
 
-.login button {
+.login-butt {
   padding: 10px;
   font-size: 1rem;
   background-color: #000000;

@@ -1,0 +1,16 @@
+/* src/styles/BackButton.css */
+.back-button {
+    position: absolute;
+    top: 40px; /* Adjust as necessary */
+    left: 40px; /* Adjust as necessary */
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 10; /* Ensure it's above other components */
+  }
+  
+  .back-button img {
+    width: 150px; /* Adjust size as necessary */
+    height: 100px;
+  }
+  

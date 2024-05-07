@@ -5,6 +5,7 @@ import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../services/firebaseConfig';
 import { createUserProfileDocument } from '../services/FirestoreService';
 import { UserContext } from '../context/UserContext'; // Corrected import for context
+import BackButton from './BackButton';
 import '../styles/Signup.css';
 
 const Signup = () => {
@@ -42,11 +43,12 @@ const Signup = () => {
 
   return (
     <div className="signup">
+      <BackButton /> {/* Add the back button */}
       <form onSubmit={handleSignup}>
         <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
         <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
         <input type="password" placeholder="Repeat password" value={repeatPassword} onChange={(e) => setRepeatPassword(e.target.value)} required />
-        <button type="submit">Sign up</button>
+        <button className="signup-butt">Sign up</button>
       </form>
     </div>
   );
