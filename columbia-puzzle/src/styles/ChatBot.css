@@ -1,11 +1,12 @@
 /* General container for chatbot */
 .chatbot-container {
   position: fixed;
-  bottom: -100%; /* Hidden initially */
-  right: 30px; /* Slightly away from the right border */
-  width: 350px; /* Adjust to fit phone.png size */
-  height: 600px; /* Adjust to fit phone.png size */
-  transition: bottom 0.5s; /* Smooth slide transition */
+  bottom: -650px; /* Hidden initially */
+  right: -400px; /* Align it to the right edge */
+  width: 350px;
+  height: 600px;
+  background-color: rgba(0, 0, 0, 0.3); /* Temporarily visualize the bounds */
+  transition: bottom 0.5s;
   z-index: 10;
 }
 
@@ -28,30 +29,26 @@
 
 .chat-content {
   position: absolute;
-  top: 50px; /* Adjust based on how low you want the chat to appear */
+  top: 50px;
   left: 20px;
   right: 20px;
-  bottom: 80px; /* Space above input form */
+  bottom: 80px;
   z-index: 2;
   overflow: auto;
-  font-family: 'Courier New', Courier, monospace; /* Terminal-like font */
-  color: #00FF00; /* Green text color */
-}
-
-.chatbot-messages {
-  overflow-y: auto;
+  font-family: 'Courier New', Courier, monospace;
+  color: #00ff00;
 }
 
 .chatbot-form {
   position: absolute;
-  bottom: 30px; /* Adjust this to be a few pixels above the phone image's bottom */
+  bottom: 30px;
   left: 35px;
   right: 35px;
   display: flex;
   gap: 8px;
   padding: 8px 16px;
   background-color: #000000;
-  z-index: 3; /* Ensure it appears above other elements */
+  z-index: 3;
 }
 
 input {
@@ -59,15 +56,15 @@ input {
   padding: 8px;
   border: none;
   outline: none;
-  background-color: #000000; /* Terminal-like input style */
-  color: #00FF00;
+  background-color: #000000;
+  color: #00ff00;
   font-family: 'Courier New', Courier, monospace;
 }
 
 button {
   padding: 8px;
   border: none;
-  background-color: #00FF00;
+  background-color: #00ff00;
   color: #000000;
   cursor: pointer;
   font-family: 'Courier New', Courier, monospace;

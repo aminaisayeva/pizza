@@ -8,20 +8,19 @@ import '../styles/ChatBot.css';
 const ChatBot = ({ visible, toggleVisibility }) => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
-  const { user } = useUser(); // Use the user from the UserContext
-  const messagesEndRef = useRef(null); // Reference to the bottom of the message list
+  const { user } = useUser();
+  const messagesEndRef = useRef(null);
 
   useEffect(() => {
-    if (!user) return; // Exit if there is no logged-in user
-    const q = query(collection(db, `Users/${user.uid}/ChatBotConversations`), orderBy("timestamp", "asc"));
+    if (!user) return;
+    const q = query(collection(db, `Users/${user.uid}/ChatBotConversations`), orderBy('timestamp', 'asc'));
     const unsubscribe = onSnapshot(q, (snapshot) => {
       setMessages(snapshot.docs.map((doc) => ({ id: doc.id, data: doc.data() })));
     });
-    return unsubscribe; // Detach listener on unmount
+    return unsubscribe;
   }, [user]);
 
   useEffect(() => {
-    // Automatically scroll to the bottom whenever messages change
     scrollToBottom();
   }, [messages]);
 
@@ -33,7 +32,7 @@ const ChatBot = ({ visible, toggleVisibility }) => {
 
   const sendMessage = async (event) => {
     event.preventDefault();
-    if (!input.trim()) return; // Don't send empty messages
+    if (!input.trim()) return;
     if (!user) {
       alert('You must be logged in to send messages.');
       return;
@@ -48,7 +47,7 @@ const ChatBot = ({ visible, toggleVisibility }) => {
 
       const data = await response.json();
       if (response.ok) {
-        setInput(''); // Clear input after sending
+        setInput('');
       } else {
         alert(data.error || 'Failed to send message');
       }
@@ -60,18 +59,17 @@ const ChatBot = ({ visible, toggleVisibility }) => {
 
   return (
     <div className={`chatbot-container ${visible ? 'visible' : ''}`}>
-      <div className="phone-frame" onClick={toggleVisibility}>
-        {/* Static Phone Image */}
-      </div>
+      <div className="phone-frame" onClick={toggleVisibility} />
+
       <div className="chat-content">
         <div className="chatbot-messages">
           {messages.map(({ id, data }) => (
-            <p key={id}>{data.text}</p> // Display each message
+            <p key={id}>{data.text}</p>
           ))}
-          {/* Invisible div used as the "bottom anchor" for automatic scrolling */}
           <div ref={messagesEndRef} />
         </div>
       </div>
+
       <form onSubmit={sendMessage} className="chatbot-form">
         <input
           value={input}

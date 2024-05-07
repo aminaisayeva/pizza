@@ -1,21 +1,33 @@
+/* Inventory container */
 .inventory {
-    display: flex;
-    justify-content: center;
-    position: fixed; /* Make inventory stay at the bottom */
-    bottom: 0;
-    width: 100%;
-  }
-  
-  .inventory-slot, .chatbot-icon {
-    width: 40px; /* Size of each slot */
-    height: 40px;
-    margin: 10px;
-    background-color: #f0f0f0;
-    border: 1px solid #ccc; /* Light grey border for each slot */
-  }
-  
-  .chatbot-icon {
-    background-color: blue; /* Color to distinguish the chatbot icon */
-    border-radius: 50%; /* Circle shape */
-  }
-  
+  position: fixed;
+  bottom: 20px; /* Adjust to your desired vertical position */
+  left: 50%;
+  transform: translateX(-50%); /* Center horizontally */
+  width: 600px; /* Adjust to fully display the inventory slots image */
+  height: 80px; /* Adjust to the height of the inventory_slots.png */
+  background-image: url('../assets/inventory_slots.png'); /* Replace with the correct path */
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  z-index: 9;
+}
+
+/* Individual inventory slots */
+.inventory-slot {
+  width: 50px; /* Adjust to match the size of each slot */
+  height: 50px;
+  position: relative;
+  border: 1px dashed gray; /* Makes slots visible during development */
+}
+
+/* ChatBot icon placed in an inventory slot */
+.chatbot-icon {
+  width: 50px; /* Adjust to fit within an inventory slot */
+  height: 50px;
+  background-color: blue; /* Adjust as needed */
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 10; /* Ensure it's clickable */
+}
