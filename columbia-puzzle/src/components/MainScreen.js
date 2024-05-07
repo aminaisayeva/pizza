@@ -27,7 +27,7 @@ const MainScreen = () => {
       <div className="mainScreen__header">
         <LogoutButton /> {/* Place the LogoutButton in the header */}
       </div>
-      <div className="mainScreen__inventory">
+      <div>
         <Inventory />
       </div>
       {/*
