@@ -1,24 +1,44 @@
 .signup {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh; /* Full viewport height */
-  }
-  
-  .signup form {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .signup input,
-  .signup button {
-    padding: 10px;
-    margin-bottom: 15px;
-    font-size: 1rem;
-  }
-  
-  .signup button {
-    cursor: pointer;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh; /* Full viewport height */
+  width: 100vw; /* Full viewport width */
+  background-image: url('../assets/other_background.png'); /* Adjust path to your new background image */
+  background-size: cover;
+  background-position: center;
+}
+
+.signup form {
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+  padding: 55px 95px 55px 95px;/* top, right, bottom, left */
+  border-radius: 10px;
+  width: 250px; /* Fixed width for a consistent rectangular form */
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3); /* Optional: Adds subtle shadow for depth */
+  font-family: 'Courier New', Courier, monospace;
+  color: #00ff00; /* Terminal-like green text */
+  transform: translate(-26px, -21px); /* Shifts the box 20px to the left */
+}
+
+.signup input {
+  padding: 10px;
+  margin-bottom: 15px;
+  font-size: 1rem;
+  background-color: #000000; /* Terminal-like black background */
+  color: #00ff00; /* Terminal-like green text */
+  border: 1px solid #00ff00; /* Green border */
+  outline: none;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+
+.signup button {
+  padding: 10px;
+  font-size: 1rem;
+  background-color: #000000;
+  color: #ffffff;
+  font-family: 'Courier New', Courier, monospace;
+}
