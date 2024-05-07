@@ -14,9 +14,7 @@
   }
   
   .mainScreen__inventory {
-    width: 80%;
-    border: 2px solid #ccc;
-    margin: 20px;
+    
     /* Add other styles as needed */
   }
   
@@ -43,7 +41,7 @@
   .clickable-area {
     position: absolute;
     top: 42%;  /* adjust as necessary */
-    left: 51%; /* adjust as necessary */
+    left: 50%; /* adjust as necessary */
     transform: translate(-50%, -50%);
     width: 520px;  /* size of the clickable area */
     height: 350px; /* size of the clickable area */
@@ -54,16 +52,17 @@
   
   .slide-panel {
     position: fixed;
-    left: 0;
-    right: 0;
-    bottom: -100%; /* Start off-screen */
-    height: 100vh; /* Height to cover the whole screen */
-    background-image: url('../assets/slide_board.png'); /* Add your image here */
+    left: 0px; /* Adjust to move to the left */
+    right: 0px;
+    bottom: -100%; /* Initially off-screen */
+    height: 100vh;
+    background-image: url('../assets/slide_board.png'); /* Adjust to correct path */
     background-size: cover;
-    background-position: center;
-    transition: bottom 0.5s; /* Smooth slide transition */
-    z-index: 1; /* Ensure it slides under clickable areas */
+    background-position: 130% 10%; /* Adjust to the desired position */
+    transition: bottom 0.5s, left 0.5s; /* Smooth slide transition */
+    z-index: 1;
   }
+
   
   .slide-panel.visible {
     bottom: 0; /* Slide to cover the screen */
