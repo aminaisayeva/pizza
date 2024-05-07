@@ -19,7 +19,7 @@
   width: 50px; /* Adjust to match the size of each slot */
   height: 50px;
   position: relative;
-  border: 1px dashed gray; /* Makes slots visible during development */
+  /*border: 1px dashed gray; */ /*Makes slots visible during development */
 }
 
 /* ChatBot icon placed in an inventory slot */

@@ -1,11 +1,10 @@
-/* General container for chatbot */
+/* General container for chatbot remains the same */
 .chatbot-container {
   position: fixed;
   bottom: -650px; /* Hidden initially */
   right: -400px; /* Align it to the right edge */
   width: 350px;
   height: 600px;
-  background-color: rgba(0, 0, 0, 0.3); /* Temporarily visualize the bounds */
   transition: bottom 0.5s;
   z-index: 10;
 }
@@ -34,9 +33,29 @@
   right: 20px;
   bottom: 80px;
   z-index: 2;
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden; /* Prevents horizontal scrolling */
   font-family: 'Courier New', Courier, monospace;
   color: #00ff00;
+}
+
+/* Container for chat messages */
+.chatbot-messages {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  text-align: left; /* Aligns all text to the left */
+}
+
+/* Style for each message */
+.chat-message {
+  max-width: calc(100% - 40px); /* Reduce effective max-width to wrap earlier */
+  padding-left: 18px; /* Indent all messages to the left */
+  word-wrap: break-word;
+  margin: 2px 0;
+  color: #00ff00; /* Terminal-like color */
 }
 
 .chatbot-form {
@@ -61,7 +80,7 @@ input {
   font-family: 'Courier New', Courier, monospace;
 }
 
-button {
+.chatbot-form button {
   padding: 8px;
   border: none;
   background-color: #00ff00;

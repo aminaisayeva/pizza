@@ -1,9 +1,13 @@
-// src/components/ChatBot.js
 import React, { useState, useEffect, useRef } from 'react';
 import { collection, query, orderBy, onSnapshot } from 'firebase/firestore';
 import { useUser } from '../context/UserContext';
 import { db } from '../services/firebaseConfig';
 import '../styles/ChatBot.css';
+
+// Determine the label for each message based on the sender
+const getLabel = (type) => {
+  return type === 'sent' ? 'ME: ' : 'Hermes: ';
+};
 
 const ChatBot = ({ visible, toggleVisibility }) => {
   const [messages, setMessages] = useState([]);
@@ -64,7 +68,9 @@ const ChatBot = ({ visible, toggleVisibility }) => {
       <div className="chat-content">
         <div className="chatbot-messages">
           {messages.map(({ id, data }) => (
-            <p key={id}>{data.text}</p>
+            <div key={id} className="chat-message">
+              <p>{getLabel(data.messageType)}{data.text}</p>
+            </div>
           ))}
           <div ref={messagesEndRef} />
         </div>

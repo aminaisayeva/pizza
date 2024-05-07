@@ -1,20 +1,40 @@
+/* src/styles/Welcome.css */
 .welcome {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh; /* Full viewport height */
-  }
-  
-  .welcome h1 {
-    margin: 0 0 20px;
-    text-align: center;
-  }
-  
-  .welcome button {
-    padding: 10px 15px;
-    margin: 10px;
-    font-size: 1rem;
-    cursor: pointer;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /*align-items: flex-start; /* Aligns items to the left */
+  top: 10px;
+  padding-left: 60px; /* Adds some padding from the left side */
+  height: 100vh;
+  width: 100vw;
+  background-image: url('../assets/welcome.png'); /* Make sure this path is correct */
+  background-size: cover;
+  background-position: center;
+  text-align: left;
+  /*color: #fff;*/
+}
+
+.welcome h1 {
+  margin-bottom: 20px;
+  font-size: 2.5rem;
+  /*color: #fff;*/
+}
+
+.welcome-button {
+  background-size: cover;
+  background-position: center;
+  border: none;
+  cursor: pointer;
+  margin: 10px 0; /* Vertical margin for each button */
+  width: 130px; /* Adjust width to match the image dimensions */
+  height: 55px; /* Adjust height to match the image dimensions */
+}
+
+.login-button {
+  background-image: url('../assets/login_button.png'); /* Adjust path to your login button image */
+}
+
+.signup-button {
+  background-image: url('../assets/signup_button.png'); /* Adjust path to your signup button image */
+}
