@@ -8,8 +8,11 @@ const chatRoutes = require('./routes/chatRoutes'); // New import
 const app = express();
 const PORT = process.env.PORT || 5001;
 
+// backend/index.js
+app.use(cors({ origin: 'http://localhost:3001', credentials: true }));
+
 // Enable CORS and allow requests from the front-end origin
-app.use(cors({ origin: 'http://localhost:3001' })); // Adjust to the appropriate origin
+// app.use(cors({ origin: 'http://localhost:3001' })); // Adjust to the appropriate origin
 app.use(express.json());
 
 // Use the user, inventory, and chat routes

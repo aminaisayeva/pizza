@@ -27,4 +27,33 @@ router.post('/inventory/:userId', async (req, res) => {
   }
 });
 
+// Install the 'multer' middleware for file uploads
+const multer = require('multer');
+const { storage, admin } = require('../firebaseAdmin');
+const upload = multer({ storage: multer.memoryStorage() });
+
+// Route to upload audio files to Firebase Storage
+router.post('/audio/upload/:userId', upload.single('audioFile'), async (req, res) => {
+  const { userId } = req.params;
+  if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
+
+  const bucket = admin.storage().bucket('columbia-quest.appspot.com');
+  const blob = bucket.file(`users/${userId}/audio/${req.file.originalname}`);
+
+  const blobStream = blob.createWriteStream({
+    metadata: {
+      contentType: req.file.mimetype
+    }
+  });
+
+  blobStream.on('error', (err) => res.status(500).json({ error: err.message }));
+  blobStream.on('finish', async () => {
+    const publicUrl = `https://storage.googleapis.com/${bucket.name}/${blob.name}`;
+    res.status(200).json({ url: publicUrl });
+  });
+
+  blobStream.end(req.file.buffer);
+});
+
+
 module.exports = router;

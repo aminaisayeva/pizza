@@ -30,3 +30,21 @@ export const fetchInventoryItems = async (userId) => {
     ...doc.data(),
   }));
 };
+
+export const uploadAudioFile = async (userId, audioFile) => {
+  const formData = new FormData();
+  formData.append('audioFile', audioFile);
+
+  const response = await fetch(`http://localhost:5001/api/audio/upload/${userId}`, {
+    method: 'POST',
+    body: formData
+  });
+
+  if (response.ok) {
+    const data = await response.json();
+    return data.url; // Return the public URL for the audio file
+  }
+
+  throw new Error('Error uploading audio file');
+};
+

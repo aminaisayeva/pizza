@@ -1,3 +1,4 @@
+// src/components/ChatBot.js
 import React, { useState, useEffect, useRef } from 'react';
 import { collection, query, orderBy, onSnapshot } from 'firebase/firestore';
 import { useUser } from '../context/UserContext';

@@ -5,7 +5,7 @@ import '../styles/Welcome.css';
 
 const Welcome = () => {
   const navigate = useNavigate();
-
+/*debugger;*/
   return (
     <div className="welcome">
       
