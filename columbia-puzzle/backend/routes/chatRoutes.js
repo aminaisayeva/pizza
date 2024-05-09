@@ -35,16 +35,39 @@ async function resetUser(userId) {
 
 // Function to generate a response using OpenAI
 // Function to generate a response using OpenAI
-async function generateOpenAIResponse(prompt) {
+// Function to generate a response using OpenAI with improved prompt structure
+async function generateOpenAIResponseWithHistory(prompt, userName, conversationHistory) {
+  // Create a structured prompt by including important clues and past interactions
+  const fullPrompt = `
+    You are Hermes, a Greek god of riddles who helps the "traveler" navigate puzzles. Here are some scripted clues and interactions to keep in mind:
+    1. Greetings: "${script.greeting}"
+    2. Welcome Back: "${script.welcomeBack(userName)}"
+    3. Close Hint: "${script.closeHint}"
+    4. Audio Clue: "${script.audioClue}"
+
+    The Audio message contains the first clue, which is an audio of morse code that when translated prompts the person to answer the question.
+
+    Use a succinct and mysterious tone in your responses.
+
+    Here’s the recent conversation with the traveler:
+    ${conversationHistory.map(msg => `${msg.sender}: ${msg.text}`).join('\n')}
+
+    Traveler's new question: "${prompt}"
+    Reply to the following question, keeping the hints and secrets intact.
+  `;
+
   const response = await openai.chat.completions.create({
     model: 'gpt-3.5-turbo',
-    messages: [{ role: 'system', content: prompt }],
+    messages: [{ role: 'system', content: fullPrompt }],
   });
+
   return response.choices[0].message.content;
 }
 
 
+
 // New route to handle login logic
+// New login logic to welcome back the user or introduce them as new
 router.post('/chat/login', async (req, res) => {
   const { userId } = req.body;
   if (!userId) {
@@ -52,31 +75,37 @@ router.post('/chat/login', async (req, res) => {
   }
 
   try {
-    // Retrieve the user's name, if it exists
-    const userName = await getUserName(userId);
-
-    // Determine if it's a "Welcome back" or a new user scenario
-    let responseMessage;
-    if (userName) {
-      responseMessage = script.welcomeBack(userName);
-    } else {
-      responseMessage = script.greeting;
-    }
-
-    // Add bot response to Firestore
+    // Retrieve the user's name
+    let userName = await getUserName(userId);
     const chatRef = db.collection(`Users/${userId}/ChatBotConversations`);
+
+    // Determine if the user is returning or new
+    let responseMessage = userName ? script.welcomeBack(userName) : script.greeting;
+
+    // Add the primary message
     await chatRef.add({
       text: responseMessage,
       timestamp: new Date(),
-      messageType: 'received' // Received from the bot
+      messageType: 'received',
     });
 
-    res.status(201).json({ success: true, message: responseMessage });
+    // Only ask for the name if the user is new or reset
+    if (!userName) {
+      await chatRef.add({
+        text: script.askName,
+        timestamp: new Date(),
+        messageType: 'received',
+      });
+    }
+
+    // Respond with all the messages sent
+    res.status(201).json({ success: true, messages: [responseMessage, ...(userName ? [] : [script.askName])] });
   } catch (error) {
     console.error('Error during login:', error);
     res.status(500).json({ error: 'Unable to complete login' });
   }
 });
+
 
 // Existing route to handle chat messages
 router.post('/chat/message', async (req, res) => {
@@ -86,28 +115,33 @@ router.post('/chat/message', async (req, res) => {
   }
 
   try {
-    // Retrieve the user's name, if it exists
-    let userName = await getUserName(userId);
+    // Retrieve the user's conversation history
+    const chatRef = db.collection(`Users/${userId}/ChatBotConversations`);
+    const chatHistorySnapshot = await chatRef.orderBy('timestamp').get();
+    const conversationHistory = chatHistorySnapshot.docs.map((doc) => ({
+      sender: doc.data().messageType === 'sent' ? 'Traveler' : 'Hermes',
+      text: doc.data().text,
+    }));
 
     // Add user message to Firestore
-    const chatRef = db.collection(`Users/${userId}/ChatBotConversations`);
     await chatRef.add({
       text,
       timestamp: new Date(),
       messageType: 'sent', // Sent by the user
     });
 
-    // Normalize the user's input
+    // Retrieve the user's name if available
+    let userName = await getUserName(userId);
     const lowerText = text.toLowerCase();
     let responseMessage = script.fallback;
 
-    // Determine the chatbot's response
+    // Handle reset logic
     if (lowerText.includes('reset')) {
       await resetUser(userId);
       responseMessage = `${script.reset} ${script.greeting}`;
-      userName = null; // Force the user to provide their name again
+      userName = null;
     } else if (!userName) {
-      // If no name is set, assume a single-word input after asking for a name is the user's name
+      // Handle cases where the user's name is not set
       const words = text.trim().split(/\s+/);
       if (lowerText.includes('name is') || lowerText.startsWith("i'm ") || lowerText.startsWith("i am ")) {
         userName = words.slice(-1)[0]; // Use the last word as the name
@@ -117,34 +151,29 @@ router.post('/chat/message', async (req, res) => {
 
       if (userName) {
         await setUserName(userId, userName);
-
-        // Send the welcome message first
         responseMessage = `${script.welcomeUser(userName)}`;
         await chatRef.add({
           text: responseMessage,
           timestamp: new Date(),
-          messageType: 'received'
+          messageType: 'received',
         });
-
-        // Then send the audio clue
         responseMessage = script.audioClue;
       } else {
         responseMessage = script.askName;
       }
     } else {
-      // Determine subsequent actions based on the user's input
-      if (lowerText.includes('class') || lowerText.includes('programming') || lowerText.includes('intro') ||
-        lowerText.includes('introduction') || lowerText.includes('java') || lowerText.includes('morse code') ||
-        lowerText.includes('code') || lowerText.includes('morse')) {
-        responseMessage = script.closeHint;
-      } else if (lowerText.includes('coms1004') || lowerText.includes('coms 1004') || lowerText.includes('coms1004') || lowerText.includes('coms 1004')) {
+      // Handle keyword-based responses
+      if (lowerText.includes('clue') || lowerText.includes('audio') || lowerText.includes('listen') || lowerText.includes('riddle')){
+        responseMessage = script.audioClue;
+      } else if (lowerText.includes('coms1004') || lowerText.includes('coms 1004')) {
         responseMessage = script.clueSolved(userName);
       } else if (lowerText.includes('end')) {
         responseMessage = script.end;
+      } else if (lowerText.includes('morse code') || lowerText.includes('programming') || lowerText.includes('java')) {
+        responseMessage = script.closeHint;
       } else {
-        // Use OpenAI if no predefined scenario matches
-        const openaiPrompt = `You are Hermes, a greek god of riddles who is presenting the riddle to the "traveler." Be very succinct and mysterious when trying to answer their quesitons. Reply to this in a mysterious and very brief manner, don't reveal the secrets: "${text}"`;
-        responseMessage = await generateOpenAIResponse(openaiPrompt);
+        // Use OpenAI for non-predefined inputs while maintaining a mysterious tone
+        responseMessage = await generateOpenAIResponseWithHistory(text, userName, conversationHistory);
       }
     }
 
@@ -152,12 +181,11 @@ router.post('/chat/message', async (req, res) => {
     await chatRef.add({
       text: responseMessage,
       timestamp: new Date(),
-      messageType: 'received' // Received from the bot
+      messageType: 'received', // Received from the bot
     });
 
     res.status(201).json({ success: true });
-  }
-  catch (error) {
+  } catch (error) {
     console.error('Error saving message:', error);
     res.status(500).json({ error: 'Unable to save message' });
   }
