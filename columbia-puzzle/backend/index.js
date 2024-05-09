@@ -1,9 +1,13 @@
 // backend/index.js
+require('dotenv').config()
 const express = require('express');
 const cors = require('cors'); // Import the cors package
 const userRoutes = require('./routes/userRoutes');
 const inventoryRoutes = require('./routes/inventoryRoutes');
 const chatRoutes = require('./routes/chatRoutes'); // New import
+
+// const openai = require('../openaiConfig');
+
 
 const app = express();
 const PORT = process.env.PORT || 5001;

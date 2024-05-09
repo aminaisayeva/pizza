@@ -1,6 +1,6 @@
-// backend/routes/chatRoutes.js
 const express = require('express');
 const { db } = require('../firebaseAdmin');
+const openai = require('../openaiConfig'); // Import OpenAI configuration
 const router = express.Router();
 
 // Predefined chatbot script responses
@@ -32,6 +32,17 @@ async function setUserName(userId, name) {
 async function resetUser(userId) {
   await db.collection('Users').doc(userId).delete();
 }
+
+// Function to generate a response using OpenAI
+// Function to generate a response using OpenAI
+async function generateOpenAIResponse(prompt) {
+  const response = await openai.chat.completions.create({
+    model: 'gpt-3.5-turbo',
+    messages: [{ role: 'system', content: prompt }],
+  });
+  return response.choices[0].message.content;
+}
+
 
 // New route to handle login logic
 router.post('/chat/login', async (req, res) => {
@@ -131,7 +142,9 @@ router.post('/chat/message', async (req, res) => {
       } else if (lowerText.includes('end')) {
         responseMessage = script.end;
       } else {
-        responseMessage = script.fallback;
+        // Use OpenAI if no predefined scenario matches
+        const openaiPrompt = `You are Hermes, a greek god of riddles who is presenting the riddle to the "traveler." Be very succinct and mysterious when trying to answer their quesitons. Reply to this in a mysterious and very brief manner, don't reveal the secrets: "${text}"`;
+        responseMessage = await generateOpenAIResponse(openaiPrompt);
       }
     }
 
