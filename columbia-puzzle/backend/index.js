@@ -13,7 +13,7 @@ const app = express();
 const PORT = process.env.PORT || 5001;
 
 // backend/index.js
-app.use(cors({ origin: 'http://localhost:3001', credentials: true }));
+app.use(cors());
 
 // Enable CORS and allow requests from the front-end origin
 // app.use(cors({ origin: 'http://localhost:3001' })); // Adjust to the appropriate origin
