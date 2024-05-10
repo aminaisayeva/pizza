@@ -24,10 +24,13 @@
 
 /* ChatBot icon placed in an inventory slot */
 .chatbot-icon {
-  width: 50px; /* Adjust to fit within an inventory slot */
+  width: 50px; /* Match the inventory slot size */
   height: 50px;
-  background-color: blue; /* Adjust as needed */
-  border-radius: 50%;
+
+  background-image: url('../assets/chat_bot_icon.png'); /* Ensure the path is correct */
+  background-size: contain; /* Maintain the original aspect ratio */
+  background-position: center; /* Center the background image */
+  background-repeat: no-repeat; /* Avoid repeating the image */
   cursor: pointer;
   z-index: 10; /* Ensure it's clickable */
 }
